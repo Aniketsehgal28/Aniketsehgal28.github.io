@@ -25,7 +25,7 @@
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/custom.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: MyPage
@@ -37,6 +37,85 @@
 </head>
 
 <body class="index-page">
+
+  <!-- Put this as the very first element inside <body> for a page preloader -->
+<div id="page-preloader" class="preloader" role="status" aria-live="polite" aria-busy="true">
+  <div class="spinner" aria-hidden="true"></div>
+  <span class="visually-hidden">Loading…</span>
+</div>
+
+<style>
+/* layout - cover whole viewport */
+#page-preloader.preloader {
+  position: fixed;
+  inset: 0;             /* top:0; right:0; bottom:0; left:0; */
+  display: grid;
+  place-items: center;
+  background: white;    /* change to match your background */
+  z-index: 9999;
+}
+
+/* Accessible hide text */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip: rect(0 0 0 0); white-space: nowrap; overflow: hidden;
+}
+
+/* spinner visual */
+.spinner {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 6px solid rgba(0,0,0,0.08);
+  border-top-color: #4f46e5;    /* visible color */
+  animation: spin 0.9s linear infinite;
+}
+
+/* keyframes */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* When removed, allow fadeout handled by JS (optional) */
+#page-preloader.fade-out {
+  animation: preloaderFade 300ms ease forwards;
+}
+@keyframes preloaderFade {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+</style>
+
+
+<!-- Inline decorative loader -->
+<div class="dots-loader" aria-hidden="true">
+  <span></span><span></span><span></span>
+</div>
+
+<style>
+.dots-loader { display: inline-flex; gap: 8px; align-items:center; }
+.dots-loader span {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #4f46e5;
+  opacity: 0.35;
+  transform: translateY(0);
+  animation: pulseDot 1s ease-in-out infinite;
+}
+
+/* staggered delays */
+.dots-loader span:nth-child(1) { animation-delay: 0s; }
+.dots-loader span:nth-child(2) { animation-delay: 0.15s; }
+.dots-loader span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes pulseDot {
+  0%   { opacity: 0.35; transform: translateY(0); }
+  50%  { opacity: 1; transform: translateY(-6px); }
+  100% { opacity: 0.35; transform: translateY(0); }
+}
+</style>
+
+
 
   <header id="header" class="header dark-background d-flex flex-column justify-content-between">
     <i class="header-toggle d-xl-none bi bi-list"></i>
@@ -1191,6 +1270,9 @@ Reach out through email or social channels, and I will get back to you quickly.<
                   <i class="bi bi-arrow-right"></i>
                 </button>
 
+                <button class="animated-btn">Hover Me</button>
+
+
               </form>
 
             </div>
@@ -1201,6 +1283,12 @@ Reach out through email or social channels, and I will get back to you quickly.<
       </div>
 
     </section><!-- /Contact Section -->
+
+    <section class="fade-in-section">
+      <h2>Welcome to the site</h2>
+      <p>This content fades in smoothly!</p>
+    </section>
+
 
   </main>
 
@@ -1250,6 +1338,38 @@ Reach out through email or social channels, and I will get back to you quickly.<
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+
+  <script>
+  // Remove the preloader after window load, with a nice fade
+  window.addEventListener('load', () => {
+    const p = document.getElementById('page-preloader');
+    if (!p) return;
+    p.classList.add('fade-out');
+    // remove from DOM after fade finishes
+    setTimeout(() => p.remove(), 350);
+  });
+</script>
+
+<script>
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Example: if you use auto-start JS animations, skip them when reduced-motion requested
+  if (prefersReduced.matches) {
+    // Stop or avoid JS-driven motion
+    document.documentElement.classList.add('reduced-motion');
+  } else {
+    document.documentElement.classList.remove('reduced-motion');
+  }
+
+  // Optional: listen for changes while the page is open
+  prefersReduced.addEventListener?.('change', (e) => {
+    if (e.matches) document.documentElement.classList.add('reduced-motion');
+    else document.documentElement.classList.remove('reduced-motion');
+  });
+</script>
+
+
 
 </body>
 
