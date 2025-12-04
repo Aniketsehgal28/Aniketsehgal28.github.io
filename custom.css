@@ -3985,3 +3985,151 @@ table.modern-table tbody tr:hover {
   background: #e0e7ff; /* light indigo */
 }
 
+/* Fade in + slight upward motion */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-section {
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards;
+   animation-delay: 5s;
+}
+
+
+/* Button hover color animation */
+@keyframes colorShift {
+  0% {
+    background-color: #4f46e5; /* indigo */
+  }
+  100% {
+    background-color: red; /* red */
+  }
+}
+
+.animated-btn {
+  padding: 12px 20px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* On hover animate */
+.animated-btn:hover {
+  animation: colorShift 0.3s forwards;
+  transform: scale(1.05);
+}
+
+
+@keyframes underlineGrow {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.animated-link {
+  position: relative;
+  text-decoration: none;
+  color: #111;
+}
+
+.animated-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 0;
+  background: #111;
+  transition: width 0.3s ease;
+}
+
+.animated-link:hover::after {
+  animation: underlineGrow 0.3s forwards;
+}
+
+/* Global: reduce or disable animations and transitions for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    /* stop animations/transitions and minimize motion */
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  /* prefer using animation shorthand only when motion allowed */
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Respect prefers-reduced-motion: disable the animation and just show content */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-section {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+@keyframes colorShift {
+  0% { background-color: #4f46e5; }
+  100% { background-color: #6366f1; }
+}
+
+.animated-btn {
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* motion-enabled hover */
+.animated-btn:hover {
+  animation: colorShift 0.3s forwards;
+  transform: scale(1.05);
+}
+
+/* reduced-motion: avoid transform and animation; use an instant style change instead */
+@media (prefers-reduced-motion: reduce) {
+  .animated-btn {
+    transition: none;
+  }
+  .animated-btn:hover {
+    animation: none;
+    transform: none;
+    /* provide a non-animated visual cue */
+    filter: brightness(0.95);
+  }
+}
+
+
+
+
+
+
+
