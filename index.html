@@ -44,6 +44,27 @@
   <span class="visually-hidden">Loading…</span>
 </div>
 
+<div class="background"></div>
+
+<div class="container">
+    <h1>Interactive UI Demo</h1>
+
+    <button class="btn-primary">Hover Me</button>
+
+    <div class="card">
+        <h3>Hover Card</h3>
+        <p>Advanced hover with depth and glow.</p>
+    </div>
+</div>
+
+<!-- Decorative Shapes -->
+
+<div class="shape circle"></div>
+<div class="shape circle small"></div>
+<div class="shape triangle"></div>
+<div class="shape triangle small"></div>
+
+
 <style>
 /* layout - cover whole viewport */
 #page-preloader.preloader {
@@ -55,12 +76,14 @@
   z-index: 9999;
 }
 
+
 /* Accessible hide text */
 .visually-hidden {
   position: absolute;
   width: 1px; height: 1px;
   margin: -1px; padding: 0; border: 0;
-  clip: rect(0 0 0 0); white-space: nowrap; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; overflow-x: hidden; overflow-y: auto;
+
 }
 
 /* spinner visual */
