@@ -1,0 +1,270 @@
+/* custom-animations.css - ONLY animations and custom effects */
+
+/* Animations */
+@keyframes float-animation {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-35px); }
+}
+
+@keyframes rotate-animation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Decorative shapes */
+.shape {
+    position: fixed;
+    pointer-events: none;
+    opacity: 0.7;
+    z-index: -1;
+}
+
+.circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    top: 10%;
+    left: 8%;
+    animation: float-animation 6s ease-in-out infinite;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 80px solid transparent;
+    border-right: 80px transparent;
+    border-bottom: 140px solid rgba(255, 255, 255, 0.9);
+    bottom: 15%;
+    right: 10%;
+    animation: rotate-animation 8s linear infinite;
+}
+
+/* Fade-in section */
+.fade-in-section {
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .shape, .fade-in-section {
+    animation: none !important;
+  }
+}
+
+/* custom-animations.css - ONLY animations and custom effects */
+
+/* Animations */
+@keyframes float-animation {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-35px); }
+}
+
+@keyframes rotate-animation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.05); }
+}
+
+@keyframes wave {
+  0% { transform: translateX(0) translateZ(0) scaleY(1); }
+  50% { transform: translateX(-25%) translateZ(0) scaleY(0.85); }
+  100% { transform: translateX(-50%) translateZ(0) scaleY(1); }
+}
+
+/* Animated Gradient Background */
+.animated-gradient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  background: linear-gradient(-45deg, #25303f, #293443, #1c2737, #38485f);
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+/* Wave effect */
+.wave-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: -1;
+}
+
+.wave-container svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 150px;
+}
+
+.wave-container .shape-fill {
+  fill: rgba(34, 231, 161, 0.1);
+  animation: wave 25s linear infinite;
+}
+
+/* Decorative shapes */
+.shape {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.7;
+  z-index: -1;
+}
+
+.circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  top: 10%;
+  left: 8%;
+  animation: float-animation 6s ease-in-out infinite, pulse-glow 4s ease-in-out infinite;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 80px solid transparent;
+  border-right: 80px solid transparent;
+  border-bottom: 140px solid rgba(34, 231, 161, 0.15);
+  bottom: 15%;
+  right: 10%;
+  animation: rotate-animation 8s linear infinite, pulse-glow 3s ease-in-out infinite;
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.08);
+  top: 70%;
+  left: 15%;
+  transform: rotate(45deg);
+  animation: float-animation 7s ease-in-out infinite alternate;
+}
+
+.hexagon {
+  width: 120px;
+  height: 69.28px;
+  background: rgba(34, 231, 161, 0.1);
+  position: fixed;
+  top: 20%;
+  right: 15%;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  animation: float-animation 8s ease-in-out infinite reverse, pulse-glow 5s ease-in-out infinite;
+}
+
+/* Advanced hover effects */
+.advanced-hover {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.advanced-hover::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+  z-index: 0;
+}
+
+.advanced-hover:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.advanced-hover > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Glowing border effect */
+.glow-border {
+  position: relative;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.glow-border::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: linear-gradient(45deg, #22e7a1, #ff6b6b, #4ecdc4);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: gradient-shift 3s ease infinite;
+  background-size: 200% 200%;
+}
+
+.glow-border:hover::after {
+  opacity: 1;
+}
+
+/* Floating card animation */
+.floating-card {
+  animation: float-animation 6s ease-in-out infinite;
+}
+
+.floating-card:nth-child(2) {
+  animation-delay: 2s;
+}
+
+.floating-card:nth-child(3) {
+  animation-delay: 4s;
+}
+
+/* Fade-in section */
+.fade-in-section {
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .shape, .fade-in-section, .animated-gradient-bg, .glow-border::after,
+  .floating-card, .wave-container svg, .advanced-hover::before {
+    animation: none !important;
+  }
+  
+  .animated-gradient-bg {
+    background: #25303f;
+  }
+}
