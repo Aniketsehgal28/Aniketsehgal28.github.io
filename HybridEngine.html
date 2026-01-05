@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Engine Control System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a1929 0%, #1a1a2e 100%);
+            color: #e6f1ff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(100, 150, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #64b5f6, #4fc3f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            color: #88d3fa;
+            font-size: 1.1rem;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(16, 42, 67, 0.8);
+            border-radius: 15px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(100, 150, 255, 0.1);
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4fc3f7;
+        }
+
+        .status-label {
+            font-size: 0.9rem;
+            color: #a3d5ff;
+            margin-top: 5px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .panel {
+            background: rgba(22, 36, 56, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(100, 150, 255, 0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #64b5f6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-title i {
+            font-size: 1.3rem;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #bbdefb;
+        }
+
+        .slider-container {
+            position: relative;
+            height: 40px;
+            background: rgba(30, 45, 70, 0.8);
+            border-radius: 20px;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(to right, #0d47a1, #2196f3);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #4fc3f7;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(79, 195, 247, 0.8);
+        }
+
+        .slider-value {
+            position: absolute;
+            right: 20px;
+            font-weight: bold;
+            color: #4fc3f7;
+            background: rgba(30, 45, 70, 0.9);
+            padding: 5px 10px;
+            border-radius: 10px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #1565c0, #2196f3);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(to right, #c62828, #f44336);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(to right, #2e7d32, #4caf50);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(to right, #f57c00, #ff9800);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(30, 45, 70, 0.6);
+            border-radius: 15px;
+        }
+
+        .switch-label {
+            font-size: 1.1rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 70px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider-switch {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #37474f;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider-switch:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider-switch {
+            background-color: #2196f3;
+        }
+
+        input:checked + .slider-switch:before {
+            transform: translateX(36px);
+        }
+
+        .gauge-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .gauge {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+
+        .gauge-bg {
+            fill: none;
+            stroke: rgba(30, 45, 70, 0.9);
+            stroke-width: 20;
+        }
+
+        .gauge-fill {
+            fill: none;
+            stroke: #4fc3f7;
+            stroke-width: 20;
+            stroke-linecap: round;
+            transform-origin: center;
+            transform: rotate(-90deg);
+            transition: stroke-dasharray 0.5s;
+        }
+
+        .gauge-center {
+            fill: #0a1929;
+        }
+
+        .gauge-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4fc3f7;
+        }
+
+        .gauge-label {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #bbdefb;
+        }
+
+        .indicators {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .indicator {
+            background: rgba(30, 45, 70, 0.6);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .indicator.active {
+            background: rgba(33, 150, 243, 0.2);
+            box-shadow: 0 0 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .indicator i {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #4fc3f7;
+        }
+
+        .indicator.warning i {
+            color: #ff9800;
+        }
+
+        .indicator.danger i {
+            color: #f44336;
+        }
+
+        .indicator-label {
+            font-size: 0.9rem;
+            color: #a3d5ff;
+        }
+
+        .logs-panel {
+            margin-top: 30px;
+        }
+
+        .logs-container {
+            height: 200px;
+            overflow-y: auto;
+            background: rgba(10, 25, 41, 0.9);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .log-entry {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(100, 150, 255, 0.1);
+            color: #bbdefb;
+        }
+
+        .log-time {
+            color: #64b5f6;
+            margin-right: 15px;
+        }
+
+        .log-message {
+            color: #e6f1ff;
+        }
+
+        .log-warning {
+            color: #ffb74d;
+        }
+
+        .log-error {
+            color: #f44336;
+        }
+
+        .log-success {
+            color: #4caf50;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(100, 150, 255, 0.2);
+            color: #88d3fa;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .power-mode {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .mode-btn {
+            padding: 12px 20px;
+            border-radius: 10px;
+            background: rgba(30, 45, 70, 0.8);
+            color: #a3d5ff;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        .mode-btn.active {
+            background: rgba(33, 150, 243, 0.3);
+            color: #4fc3f7;
+            border-color: #2196f3;
+            box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-car-alt"></i> Hybrid Engine Control System</h1>
+            <p class="subtitle">Advanced control interface for next-generation hybrid-electric powertrain</p>
+        </header>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-value" id="engineStatus">READY</div>
+                <div class="status-label">System Status</div>
+            </div>
+            <div class="status-item">
+                <div class="status-value" id="powerOutput">0 kW</div>
+                <div class="status-label">Power Output</div>
+            </div>
+            <div class="status-item">
+                <div class="status-value" id="batteryLevel">85%</div>
+                <div class="status-label">Battery Level</div>
+            </div>
+            <div class="status-item">
+                <div class="status-value" id="engineTemp">92°C</div>
+                <div class="status-label">Engine Temperature</div>
+            </div>
+            <div class="status-item">
+                <div class="status-value" id="energyMode">HYBRID</div>
+                <div class="status-label">Energy Mode</div>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-tachometer-alt"></i> Power Management</h2>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Power Output</span>
+                        <span id="powerValue">0%</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="100" value="0" class="slider" id="powerSlider">
+                        <div class="slider-value" id="powerDisplay">0%</div>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <div class="power-mode">
+                        <button class="mode-btn active" data-mode="eco">ECO</button>
+                        <button class="mode-btn" data-mode="normal">NORMAL</button>
+                        <button class="mode-btn" data-mode="sport">SPORT</button>
+                        <button class="mode-btn" data-mode="ev">EV ONLY</button>
+                    </div>
+                </div>
+                
+                <div class="gauge-container">
+                    <div class="gauge">
+                        <svg width="200" height="200" viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="85" class="gauge-bg"></circle>
+                            <circle cx="100" cy="100" r="85" class="gauge-fill" id="powerGauge"></circle>
+                            <circle cx="100" cy="100" r="70" class="gauge-center"></circle>
+                        </svg>
+                        <div class="gauge-value" id="gaugeValue">0%</div>
+                    </div>
+                    <div class="gauge-label">Power Output</div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" id="startBtn">
+                        <i class="fas fa-power-off"></i> Start Engine
+                    </button>
+                    <button class="btn btn-danger" id="stopBtn" disabled>
+                        <i class="fas fa-stop-circle"></i> Stop Engine
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-cogs"></i> System Controls</h2>
+                
+                <div class="control-group">
+                    <div class="switch-container">
+                        <span class="switch-label">Regenerative Braking</span>
+                        <label class="switch">
+                            <input type="checkbox" id="regenBraking" checked>
+                            <span class="slider-switch"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="switch-container">
+                        <span class="switch-label">Engine Auto-Start/Stop</span>
+                        <label class="switch">
+                            <input type="checkbox" id="autoStartStop" checked>
+                            <span class="slider-switch"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="switch-container">
+                        <span class="switch-label">Battery Saver Mode</span>
+                        <label class="switch">
+                            <input type="checkbox" id="batterySaver">
+                            <span class="slider-switch"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="indicators">
+                    <div class="indicator active" id="engineIndicator">
+                        <i class="fas fa-gas-pump"></i>
+                        <div class="indicator-label">Engine</div>
+                    </div>
+                    <div class="indicator" id="motorIndicator">
+                        <i class="fas fa-bolt"></i>
+                        <div class="indicator-label">Electric Motor</div>
+                    </div>
+                    <div class="indicator" id="batteryIndicator">
+                        <i class="fas fa-car-battery"></i>
+                        <div class="indicator-label">Battery</div>
+                    </div>
+                    <div class="indicator warning" id="tempIndicator">
+                        <i class="fas fa-thermometer-half"></i>
+                        <div class="indicator-label">Temperature</div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-success" id="chargeBtn">
+                        <i class="fas fa-charging-station"></i> Simulate Charging
+                    </button>
+                    <button class="btn btn-warning" id="diagnosticsBtn">
+                        <i class="fas fa-stethoscope"></i> Run Diagnostics
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title"><i class="fas fa-sliders-h"></i> Advanced Settings</h2>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Engine Response</span>
+                        <span id="responseValue">Normal</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="3" value="2" class="slider" id="responseSlider">
+                        <div class="slider-value" id="responseDisplay">Normal</div>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Regen Braking Strength</span>
+                        <span id="regenValue">Medium</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" min="1" max="3" value="2" class="slider" id="regenSlider">
+                        <div class="slider-value" id="regenDisplay">Medium</div>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Battery Charge Limit</span>
+                        <span id="chargeLimitValue">90%</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" min="60" max="100" value="90" class="slider" id="chargeLimitSlider">
+                        <div class="slider-value" id="chargeLimitDisplay">90%</div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" id="saveSettingsBtn">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                    <button class="btn" id="resetBtn" style="background: linear-gradient(to right, #757575, #9e9e9e); color: white;">
+                        <i class="fas fa-undo"></i> Reset Defaults
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="logs-panel">
+            <h2 class="panel-title"><i class="fas fa-clipboard-list"></i> System Logs</h2>
+            <div class="logs-container" id="logsContainer">
+                <div class="log-entry">
+                    <span class="log-time">14:30:05</span>
+                    <span class="log-message">System initialized. All components operational.</span>
+                </div>
+                <div class="log-entry">
+                    <span class="log-time">14:30:10</span>
+                    <span class="log-message log-success">Hybrid engine control system ready.</span>
+                </div>
+                <div class="log-entry">
+                    <span class="log-time">14:30:15</span>
+                    <span class="log-message">Regenerative braking system activated.</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Hybrid Engine Control System v2.1 | Designed for Next-Gen Hybrid Vehicles | © 2023 Advanced Automotive Tech</p>
+        </footer>
+    </div>
+
+    <script>
+        // DOM Elements
+        const engineStatus = document.getElementById('engineStatus');
+        const powerOutput = document.getElementById('powerOutput');
+        const batteryLevel = document.getElementById('batteryLevel');
+        const engineTemp = document.getElementById('engineTemp');
+        const energyMode = document.getElementById('energyMode');
+        
+        const powerSlider = document.getElementById('powerSlider');
+        const powerDisplay = document.getElementById('powerDisplay');
+        const powerValue = document.getElementById('powerValue');
+        const powerGauge = document.getElementById('powerGauge');
+        const gaugeValue = document.getElementById('gaugeValue');
+        
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const chargeBtn = document.getElementById('chargeBtn');
+        const diagnosticsBtn = document.getElementById('diagnosticsBtn');
+        const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        
+        const modeButtons = document.querySelectorAll('.mode-btn');
+        const logsContainer = document.getElementById('logsContainer');
+        
+        const regenBraking = document.getElementById('regenBraking');
+        const autoStartStop = document.getElementById('autoStartStop');
+        const batterySaver = document.getElementById('batterySaver');
+        
+        const responseSlider = document.getElementById('responseSlider');
+        const responseDisplay = document.getElementById('responseDisplay');
+        const responseValue = document.getElementById('responseValue');
+        
+        const regenSlider = document.getElementById('regenSlider');
+        const regenDisplay = document.getElementById('regenDisplay');
+        const regenValue = document.getElementById('regenValue');
+        
+        const chargeLimitSlider = document.getElementById('chargeLimitSlider');
+        const chargeLimitDisplay = document.getElementById('chargeLimitDisplay');
+        const chargeLimitValue = document.getElementById('chargeLimitValue');
+        
+        const engineIndicator = document.getElementById('engineIndicator');
+        const motorIndicator = document.getElementById('motorIndicator');
+        const batteryIndicator = document.getElementById('batteryIndicator');
+        const tempIndicator = document.getElementById('tempIndicator');
+        
+        // System State
+        let systemState = {
+            engineRunning: false,
+            powerLevel: 0,
+            battery: 85,
+            engineTemperature: 92,
+            currentMode: 'hybrid',
+            powerMode: 'normal',
+            regenBraking: true,
+            autoStartStop: true,
+            batterySaver: false,
+            responseLevel: 'Normal',
+            regenStrength: 'Medium',
+            chargeLimit: 90
+        };
+        
+        // Initialize UI
+        function initUI() {
+            updateStatusDisplay();
+            updateGauge();
+            updateIndicators();
+            
+            // Set initial mode button active state
+            document.querySelector(`[data-mode="${systemState.powerMode}"]`).classList.add('active');
+            energyMode.textContent = systemState.currentMode.toUpperCase();
+            
+            // Add log entry
+            addLog('System initialized. UI ready for operation.', 'normal');
+        }
+        
+        // Update status display
+        function updateStatusDisplay() {
+            powerOutput.textContent = `${(systemState.powerLevel * 2).toFixed(1)} kW`;
+            batteryLevel.textContent = `${systemState.battery}%`;
+            engineTemp.textContent = `${systemState.engineTemperature}°C`;
+            
+            if (systemState.engineRunning) {
+                engineStatus.textContent = 'RUNNING';
+                engineStatus.style.color = '#4caf50';
+            } else {
+                engineStatus.textContent = 'STOPPED';
+                engineStatus.style.color = '#f44336';
+            }
+        }
+        
+        // Update power gauge
+        function updateGauge() {
+            const circumference = 2 * Math.PI * 85;
+            const offset = circumference - (systemState.powerLevel / 100) * circumference;
+            
+            powerGauge.style.strokeDasharray = `${circumference} ${circumference}`;
+            powerGauge.style.strokeDashoffset = offset;
+            
+            gaugeValue.textContent = `${systemState.powerLevel}%`;
+            powerDisplay.textContent = `${systemState.powerLevel}%`;
+            powerValue.textContent = `${systemState.powerLevel}%`;
+        }
+        
+        // Update system indicators
+        function updateIndicators() {
+            // Engine indicator
+            if (systemState.engineRunning) {
+                engineIndicator.classList.add('active');
+                engineIndicator.innerHTML = '<i class="fas fa-gas-pump"></i><div class="indicator-label">Engine</div>';
+            } else {
+                engineIndicator.classList.remove('active');
+                engineIndicator.innerHTML = '<i class="fas fa-gas-pump"></i><div class="indicator-label">Engine</div>';
+            }
+            
+            // Motor indicator
+            if (systemState.powerLevel > 0) {
+                motorIndicator.classList.add('active');
+                motorIndicator.innerHTML = '<i class="fas fa-bolt"></i><div class="indicator-label">Electric Motor</div>';
+            } else {
+                motorIndicator.classList.remove('active');
+                motorIndicator.innerHTML = '<i class="fas fa-bolt"></i><div class="indicator-label">Electric Motor</div>';
+            }
+            
+            // Battery indicator
+            if (systemState.battery > 20) {
+                batteryIndicator.classList.remove('warning');
+                batteryIndicator.innerHTML = '<i class="fas fa-car-battery"></i><div class="indicator-label">Battery</div>';
+            } else {
+                batteryIndicator.classList.add('warning');
+                batteryIndicator.innerHTML = '<i class="fas fa-car-battery"></i><div class="indicator-label">Battery (LOW)</div>';
+            }
+            
+            // Temperature indicator
+            if (systemState.engineTemperature < 100) {
+                tempIndicator.classList.remove('danger');
+                tempIndicator.classList.add('warning');
+                tempIndicator.innerHTML = '<i class="fas fa-thermometer-half"></i><div class="indicator-label">Temperature</div>';
+            } else {
+                tempIndicator.classList.remove('warning');
+                tempIndicator.classList.add('danger');
+                tempIndicator.innerHTML = '<i class="fas fa-thermometer-full"></i><div class="indicator-label">Temperature (HIGH)</div>';
+            }
+        }
+        
+        // Add log entry
+        function addLog(message, type = 'normal') {
+            const now = new Date();
+            const timeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            
+            let typeClass = '';
+            if (type === 'warning') typeClass = 'log-warning';
+            if (type === 'error') typeClass = 'log-error';
+            if (type === 'success') typeClass = 'log-success';
+            
+            logEntry.innerHTML = `
+                <span class="log-time">${timeString}</span>
+                <span class="log-message ${typeClass}">${message}</span>
+            `;
+            
+            logsContainer.appendChild(logEntry);
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+            
+            // Limit logs to 10 entries
+            if (logsContainer.children.length > 10) {
+                logsContainer.removeChild(logsContainer.firstChild);
+            }
+        }
+        
+        // Event Listeners
+        powerSlider.addEventListener('input', function() {
+            systemState.powerLevel = parseInt(this.value);
+            updateGauge();
+            updateStatusDisplay();
+            updateIndicators();
+            
+            // Simulate engine temperature increase with power
+            if (systemState.engineRunning && systemState.powerLevel > 50) {
+                systemState.engineTemperature = 92 + Math.round(systemState.powerLevel / 10);
+                updateStatusDisplay();
+                updateIndicators();
+                
+                if (systemState.engineTemperature > 100) {
+                    addLog('Warning: Engine temperature above normal range', 'warning');
+                }
+            }
+        });
+        
+        startBtn.addEventListener('click', function() {
+            systemState.engineRunning = true;
+            systemState.engineTemperature = 92;
+            systemState.powerLevel = 10;
+            powerSlider.value = 10;
+            
+            updateStatusDisplay();
+            updateGauge();
+            updateIndicators();
+            
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            
+            addLog('Engine started successfully', 'success');
+            addLog('Hybrid powertrain activated', 'normal');
+            
+            if (systemState.autoStartStop) {
+                addLog('Auto start/stop system active', 'normal');
+            }
+        });
+        
+        stopBtn.addEventListener('click', function() {
+            systemState.engineRunning = false;
+            systemState.powerLevel = 0;
+            powerSlider.value = 0;
+            
+            updateStatusDisplay();
+            updateGauge();
+            updateIndicators();
+            
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            
+            addLog('Engine stopped', 'normal');
+        });
+        
+        chargeBtn.addEventListener('click', function() {
+            if (systemState.battery < 100) {
+                systemState.battery = Math.min(100, systemState.battery + 15);
+                updateStatusDisplay();
+                updateIndicators();
+                
+                addLog('Battery charging simulated: +15%', 'success');
+                
+                if (systemState.battery === 100) {
+                    addLog('Battery fully charged', 'success');
+                }
+            } else {
+                addLog('Battery already at full charge', 'warning');
+            }
+        });
+        
+        diagnosticsBtn.addEventListener('click', function() {
+            addLog('Running system diagnostics...', 'normal');
+            
+            // Simulate diagnostic check
+            setTimeout(() => {
+                addLog('Diagnostics complete: All systems operational', 'success');
+                addLog(`Battery health: ${systemState.battery > 70 ? 'Good' : 'Needs attention'}`, 'normal');
+                addLog(`Engine status: ${systemState.engineRunning ? 'Running normally' : 'Off'}`, 'normal');
+                addLog(`Temperature: ${systemState.engineTemperature < 100 ? 'Within normal range' : 'Above normal'}`, 
+                      systemState.engineTemperature < 100 ? 'normal' : 'warning');
+            }, 1500);
+        });
+        
+        // Mode buttons
+        modeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                modeButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Update system state
+                const mode = this.getAttribute('data-mode');
+                systemState.powerMode = mode;
+                
+                // Update energy mode based on selection
+                if (mode === 'ev') {
+                    systemState.currentMode = 'electric';
+                    addLog('Switched to EV-only mode', 'normal');
+                } else {
+                    systemState.currentMode = 'hybrid';
+                    addLog(`Switched to ${mode.toUpperCase()} power mode`, 'normal');
+                }
+                
+                energyMode.textContent = systemState.currentMode.toUpperCase();
+            });
+        });
+        
+        // Toggle switches
+        regenBraking.addEventListener('change', function() {
+            systemState.regenBraking = this.checked;
+            addLog(`Regenerative braking ${systemState.regenBraking ? 'enabled' : 'disabled'}`, 'normal');
+        });
+        
+        autoStartStop.addEventListener('change', function() {
+            systemState.autoStartStop = this.checked;
+            addLog(`Auto start/stop ${systemState.autoStartStop ? 'enabled' : 'disabled'}`, 'normal');
+        });
+        
+        batterySaver.addEventListener('change', function() {
+            systemState.batterySaver = this.checked;
+            addLog(`Battery saver mode ${systemState.batterySaver ? 'enabled' : 'disabled'}`, 'normal');
+        });
+        
+        // Advanced settings sliders
+        responseSlider.addEventListener('input', function() {
+            const value = parseInt(this.value);
+            let responseText = '';
+            
+            if (value === 1) responseText = 'Eco';
+            if (value === 2) responseText = 'Normal';
+            if (value === 3) responseText = 'Sport';
+            
+            systemState.responseLevel = responseText;
+            responseDisplay.textContent = responseText;
+            responseValue.textContent = responseText;
+        });
+        
+        regenSlider.addEventListener('input', function() {
+            const value = parseInt(this.value);
+            let regenText = '';
+            
+            if (value === 1) regenText = 'Low';
+            if (value === 2) regenText = 'Medium';
+            if (value === 3) regenText = 'High';
+            
+            systemState.regenStrength = regenText;
+            regenDisplay.textContent = regenText;
+            regenValue.textContent = regenText;
+        });
+        
+        chargeLimitSlider.addEventListener('input', function() {
+            const value = parseInt(this.value);
+            systemState.chargeLimit = value;
+            chargeLimitDisplay.textContent = `${value}%`;
+            chargeLimitValue.textContent = `${value}%`;
+        });
+        
+        // Save settings button
+        saveSettingsBtn.addEventListener('click', function() {
+            addLog('System settings saved successfully', 'success');
+            
+            // Show a temporary confirmation
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i> Settings Saved!';
+            this.style.background = 'linear-gradient(to right, #2e7d32, #4caf50)';
+            
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.style.background = 'linear-gradient(to right, #1565c0, #2196f3)';
+            }, 2000);
+        });
+        
+        // Reset button
+        resetBtn.addEventListener('click', function() {
+            if (confirm('Reset all settings to default values?')) {
+                // Reset sliders
+                powerSlider.value = 0;
+                responseSlider.value = 2;
+                regenSlider.value = 2;
+                chargeLimitSlider.value = 90;
+                
+                // Reset switches
+                regenBraking.checked = true;
+                autoStartStop.checked = true;
+                batterySaver.checked = false;
+                
+                // Reset mode buttons
+                modeButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelector('[data-mode="normal"]').classList.add('active');
+                
+                // Reset system state
+                systemState.powerLevel = 0;
+                systemState.responseLevel = 'Normal';
+                systemState.regenStrength = 'Medium';
+                systemState.chargeLimit = 90;
+                systemState.regenBraking = true;
+                systemState.autoStartStop = true;
+                systemState.batterySaver = false;
+                systemState.powerMode = 'normal';
+                systemState.currentMode = 'hybrid';
+                
+                // Update displays
+                updateGauge();
+                updateStatusDisplay();
+                energyMode.textContent = systemState.currentMode.toUpperCase();
+                responseDisplay.textContent = systemState.responseLevel;
+                responseValue.textContent = systemState.responseLevel;
+                regenDisplay.textContent = systemState.regenStrength;
+                regenValue.textContent = systemState.regenStrength;
+                chargeLimitDisplay.textContent = `${systemState.chargeLimit}%`;
+                chargeLimitValue.textContent = `${systemState.chargeLimit}%`;
+                
+                addLog('All settings reset to default values', 'normal');
+            }
+        });
+        
+        // Initialize the UI
+        initUI();
+        
+        // Simulate battery drain when engine is running
+        setInterval(() => {
+            if (systemState.engineRunning && systemState.powerLevel > 0) {
+                // Drain battery faster in EV mode
+                const drainRate = systemState.currentMode === 'electric' ? 0.2 : 0.1;
+                systemState.battery = Math.max(0, systemState.battery - drainRate);
+                
+                // Recharge battery slightly when regen braking is on and power is low
+                if (systemState.regenBraking && systemState.powerLevel < 30) {
+                    systemState.battery = Math.min(100, systemState.battery + 0.05);
+                }
+                
+                updateStatusDisplay();
+                updateIndicators();
+                
+                // Add low battery warning
+                if (systemState.battery < 20 && systemState.battery > 18) {
+                    addLog('Warning: Battery level below 20%', 'warning');
+                }
+                
+                // Simulate engine temperature changes
+                if (systemState.engineRunning) {
+                    const tempChange = (systemState.powerLevel / 50) - 0.5;
+                    systemState.engineTemperature = Math.max(85, Math.min(110, systemState.engineTemperature + tempChange));
+                    updateStatusDisplay();
+                    updateIndicators();
+                }
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

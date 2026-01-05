@@ -172,6 +172,23 @@
         <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Resume</a></li>
         <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Portfolio</a></li>
         <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i> Services</a></li>
+        <div class="document-card p-4 mb-4 rounded" style="background: var(--surface-color);">
+  <div class="d-flex align-items-center mb-3">
+    <i class="fas fa-shield-alt fa-2x text-primary me-3"></i>
+    <div>
+      <h4 class="mb-1">Avast Security Analysis</h4>
+      <p class="text-muted mb-0">Complete security assessment and recommendations</p>
+    </div>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="HybridEngine.html" class="btn btn-primary" target="_blank">
+      <i class="fas fa-eye me-2"></i>View Online
+    </a>
+    <a href="HybridEngine.html" download class="btn btn-outline-primary">
+      <i class="fas fa-download me-2"></i>Download
+    </a>
+  </div>
+</div>
         <li class="dropdown"><a href="#"><i class="bi bi-menu-button navicon"></i> <span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
           <ul>
             <li><a href="#">Dropdown 1</a></li>
@@ -1060,67 +1077,10 @@ Gained hands-on experience in Python-based AI projects, regression analysis, and
 
     </section><!-- /Services Section -->
 
-    <!-- Add this in your sections, possibly after contact or services section -->
-<section id="memory-game" class="section">
-  <div class="container">
-    <div class="section-title">
-      <h2>Memory Game</h2>
-      <p>Test your memory with this fun card matching game!</p>
-    </div>
-
-    <div class="game-container">
-      <!-- Game Controls -->
-      <div class="game-controls">
-        <div class="difficulty-selector">
-          <label for="difficulty">Difficulty:</label>
-          <select id="difficulty" class="form-select">
-            <option value="easy">Easy (4×3)</option>
-            <option value="hard">Hard (6×4)</option>
-          </select>
-        </div>
-        
-        <div class="buttons">
-          <button id="start-game" class="btn btn-primary">Start Game</button>
-          <button id="restart-game" class="btn btn-secondary" disabled>Restart</button>
-        </div>
-      </div>
-
-      <!-- Stats Panel -->
-      <div class="stats-panel">
-        <div class="stat-item">
-          <span class="stat-label">Moves:</span>
-          <span id="move-count" class="stat-value">0</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">Matches:</span>
-          <span id="match-count" class="stat-value">0</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">Best Score:</span>
-          <span id="best-score" class="stat-value">--</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">Time:</span>
-          <span id="timer" class="stat-value">00:00</span>
-        </div>
-      </div>
-
-      <!-- Game Board -->
-      <div id="game-board" class="game-board">
-        <!-- Cards will be generated dynamically -->
-      </div>
-
-      <!-- Win Message (hidden by default) -->
-      <div id="win-message" class="win-message" style="display: none;">
-        <div class="win-content">
-          <h3>🎉 Congratulations! 🎉</h3>
-          <p>You won the game!</p>
-          <p id="final-stats"></p>
-          <button id="play-again" class="btn btn-primary">Play Again</button>
-        </div>
-      </div>
-    </div>
-  </div>
+    <!-- Memory Game Section -->
+<!-- Add this section BEFORE the contact form -->
+<section id="memory-game" class="py-5">
+  <!-- Game will be inserted here by JavaScript -->
 </section>
 
     <!-- Testimonials Section -->
@@ -1575,6 +1535,8 @@ Gained hands-on experience in Python-based AI projects, regression analysis, and
     }
   }, 5000); // 5 second timeout max
 </script>
+
+<script src="assets/js/custom.js"></script>
 
 </body>
 </html>
