@@ -1,0 +1,333 @@
+/* =======================================================
+   CUSTOM CSS - All custom animations and effects
+   ======================================================== */
+
+/* Custom Animation Variables */
+:root {
+  --animation-fast: 0.3s;
+  --animation-medium: 0.5s;
+  --animation-slow: 0.8s;
+  --shape-float-duration: 6s;
+  --shape-rotate-duration: 8s;
+}
+
+/* 1. CUSTOM ANIMATIONS (2 REQUIRED) */
+@keyframes float-animation {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-35px); }
+}
+
+@keyframes rotate-animation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes colorShift {
+  0% { background-color: #4f46e5; }
+  100% { background-color: #ff4757; }
+}
+
+@keyframes underlineGrow {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseDot {
+  0% { opacity: 0.35; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-6px); }
+  100% { opacity: 0.35; transform: translateY(0); }
+}
+
+/* DEMO VERSION: Shapes on top for visibility */
+.animated-gradient-bg {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(270deg, #6a11cb, #2575fc, #ff512f, #dd2476);
+    background-size: 600% 600%;
+    animation: gradientShift 15s ease infinite;
+    z-index: -1; /* Background only */
+    pointer-events: none;
+}
+
+.shape {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1; /* Above background but below content */
+    mix-blend-mode: screen; /* Makes them blend nicely */
+    opacity: 0.5; /* Good visibility */
+}
+
+/* Make shapes more vibrant for demo */
+.circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.6), rgba(79, 70, 229, 0.3));
+    border: 3px solid rgba(79, 70, 229, 0.8);
+    top: 10%;
+    left: 8%;
+    animation: float-animation 6s ease-in-out infinite;
+    box-shadow: 0 0 30px rgba(79, 70, 229, 0.5);
+}
+
+.circle.small {
+    width: 80px;
+    height: 80px;
+    top: 60%;
+    left: 20%;
+    animation-duration: 9s;
+    background: radial-gradient(circle, rgba(34, 231, 161, 0.6), rgba(34, 231, 161, 0.3));
+    border: 3px solid rgba(34, 231, 161, 0.8);
+    box-shadow: 0 0 25px rgba(34, 231, 161, 0.5);
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 80px solid transparent;
+    border-right: 80px solid transparent;
+    border-bottom: 140px solid rgba(255, 71, 87, 0.6);
+    bottom: 15%;
+    right: 10%;
+    animation: rotate-animation 8s linear infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.5));
+}
+
+.triangle.small {
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-bottom: 70px solid rgba(255, 193, 7, 0.6);
+    top: 20%;
+    right: 25%;
+    animation-duration: 12s;
+    filter: drop-shadow(0 0 15px rgba(255, 193, 7, 0.5));
+}
+
+/* Add this to your HTML too */
+.square {
+    width: 100px;
+    height: 100px;
+    background: rgba(147, 51, 234, 0.3);
+    top: 70%;
+    left: 15%;
+    animation: rotate-animation 10s linear infinite reverse;
+    border: 2px solid rgba(147, 51, 234, 0.5);
+    box-shadow: 0 0 15px rgba(147, 51, 234, 0.3);
+}
+
+.rectangle {
+    width: 120px;
+    height: 80px;
+    background: rgba(59, 130, 246, 0.3);
+    top: 15%;
+    right: 20%;
+    border-radius: 10px;
+    animation: float-animation 7s ease-in-out infinite alternate;
+    border: 2px solid rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+/* 4. CSS LOADERS (Required #4) */
+#page-preloader.preloader {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: white;
+  z-index: 9999;
+}
+
+.spinner {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 6px solid rgba(0,0,0,0.08);
+  border-top-color: #4f46e5;
+  animation: spin 0.9s linear infinite;
+}
+
+.dots-loader { 
+  display: inline-flex; 
+  gap: 8px; 
+  align-items: center; 
+}
+
+.dots-loader span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #4f46e5;
+  opacity: 0.35;
+  transform: translateY(0);
+  animation: pulseDot 1s ease-in-out infinite;
+}
+
+.dots-loader span:nth-child(1) { animation-delay: 0s; }
+.dots-loader span:nth-child(2) { animation-delay: 0.15s; }
+.dots-loader span:nth-child(3) { animation-delay: 0.3s; }
+
+/* 5. FADE-IN SECTIONS (Required #3) */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+/* 6. BUTTON HOVER EFFECTS (Required #3) */
+.btn-primary {
+    padding: 14px 32px;
+    font-size: 16px;
+    border: none;
+    border-radius: 40px;
+    background: linear-gradient(135deg, #ff512f, #dd2476);
+    color: #fff;
+    cursor: pointer;
+    transition: all var(--animation-medium) ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(255, 80, 120, 0.6);
+}
+
+.animated-btn {
+  padding: 12px 20px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.animated-btn:hover {
+  animation: colorShift 0.3s forwards;
+  transform: scale(1.05);
+}
+
+/* 7. CARD HOVER EFFECTS */
+.card {
+    width: 260px;
+    padding: 20px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    transition: all var(--animation-medium) ease;
+}
+
+.card:hover {
+    transform: rotateX(10deg) rotateY(-10deg) scale(1.05);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+}
+
+/* 8. ANIMATED LINK */
+.animated-link {
+  position: relative;
+  text-decoration: none;
+  color: #111;
+}
+
+.animated-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 0;
+  background: #111;
+  transition: width 0.3s ease;
+}
+
+.animated-link:hover::after {
+  animation: underlineGrow 0.3s forwards;
+}
+
+/* 9. ACCESSIBILITY - REDUCED MOTION (Required #5) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .card:hover,
+  .btn-primary:hover,
+  .animated-btn:hover,
+  .shape {
+    transform: none !important;
+    animation: none !important;
+  }
+  
+  .fade-in-section {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .animated-btn:hover {
+    animation: none;
+    transform: none;
+    filter: brightness(0.95);
+  }
+  
+  .background {
+    animation: none;
+  }
+}
+
+/* 10. RESPONSIVE ADJUSTMENTS */
+@media (max-width: 768px) {
+  .circle {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .circle.small {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .triangle {
+    border-left: 60px solid transparent;
+    border-right: 60px solid transparent;
+    border-bottom: 105px solid rgba(255, 255, 255, 0.9);
+  }
+  
+  .triangle.small {
+    border-left: 30px solid transparent;
+    border-right: 30px transparent;
+    border-bottom: 52px solid rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* 11. DARK MODE SUPPORT */
+@media (prefers-color-scheme: dark) {
+  .shape {
+    opacity: 0.5;
+  }
+  
+  .circle,
+  .triangle {
+    background: rgba(255, 255, 255, 0.7);
+  }
+}

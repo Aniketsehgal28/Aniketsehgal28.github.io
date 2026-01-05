@@ -1060,6 +1060,69 @@ Gained hands-on experience in Python-based AI projects, regression analysis, and
 
     </section><!-- /Services Section -->
 
+    <!-- Add this in your sections, possibly after contact or services section -->
+<section id="memory-game" class="section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Memory Game</h2>
+      <p>Test your memory with this fun card matching game!</p>
+    </div>
+
+    <div class="game-container">
+      <!-- Game Controls -->
+      <div class="game-controls">
+        <div class="difficulty-selector">
+          <label for="difficulty">Difficulty:</label>
+          <select id="difficulty" class="form-select">
+            <option value="easy">Easy (4×3)</option>
+            <option value="hard">Hard (6×4)</option>
+          </select>
+        </div>
+        
+        <div class="buttons">
+          <button id="start-game" class="btn btn-primary">Start Game</button>
+          <button id="restart-game" class="btn btn-secondary" disabled>Restart</button>
+        </div>
+      </div>
+
+      <!-- Stats Panel -->
+      <div class="stats-panel">
+        <div class="stat-item">
+          <span class="stat-label">Moves:</span>
+          <span id="move-count" class="stat-value">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Matches:</span>
+          <span id="match-count" class="stat-value">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Best Score:</span>
+          <span id="best-score" class="stat-value">--</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Time:</span>
+          <span id="timer" class="stat-value">00:00</span>
+        </div>
+      </div>
+
+      <!-- Game Board -->
+      <div id="game-board" class="game-board">
+        <!-- Cards will be generated dynamically -->
+      </div>
+
+      <!-- Win Message (hidden by default) -->
+      <div id="win-message" class="win-message" style="display: none;">
+        <div class="win-content">
+          <h3>🎉 Congratulations! 🎉</h3>
+          <p>You won the game!</p>
+          <p id="final-stats"></p>
+          <button id="play-again" class="btn btn-primary">Play Again</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials section light-background">
 
@@ -1199,122 +1262,194 @@ Gained hands-on experience in Python-based AI projects, regression analysis, and
     </section><!-- /Testimonials Section -->
 
     <!-- Contact Section -->
-    <section id="contact" class="contact section">
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
+<section id="contact" class="contact section">
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
         <h2>Contact</h2>
-        <p>Lets connect! I welcome inquiries, freelance projects, and collaborative ventures.
-Whether its programming, AI, or creative design, I am happy to discuss ideas.
-Reach out through email or social channels, and I will get back to you quickly.</p>
-      </div><!-- End Section Title -->
+        <p>Let's connect! I welcome inquiries, freelance projects, and collaborative ventures.
+            Whether it's programming, AI, or creative design, I am happy to discuss ideas.
+            Reach out through email or social channels, and I will get back to you quickly.</p>
+    </div><!-- End Section Title -->
 
-      <div class="container">
+    <div class="container">
         <div class="row gy-4">
-          <div class="col-lg-5">
-
-            <div class="info-item">
-              <div class="info-icon">
-                <i class="bi bi-chat-dots"></i>
-              </div>
-              <div class="info-content">
-                <h3>Let's Connect</h3>
-                <p>We're here to discuss your vision and explore how we can bring it to life together.</p>
-              </div>
-            </div>
-
-            <div class="contact-details">
-
-              <div class="detail-item">
-                <div class="detail-icon">
-                  <i class="bi bi-envelope-open"></i>
-                </div>
-                <div class="detail-content">
-                  <span class="detail-label">Email us</span>
-                  <span class="detail-value">aniketsehgal03@gmail.com</span>
-                </div>
-              </div>
-
-              <div class="detail-item">
-                <div class="detail-icon">
-                  <i class="bi bi-telephone-outbound"></i>
-                </div>
-                <div class="detail-content">
-                  <span class="detail-label">Call us</span>
-                  <span class="detail-value">+370 61714895</span>
-                </div>
-              </div>
-
-              <div class="detail-item">
-                <div class="detail-icon">
-                  <i class="bi bi-geo-alt-fill"></i>
-                </div>
-                <div class="detail-content">
-                  <span class="detail-label">Visit us</span>
-                  <span class="detail-value">Sauletekio Aleja 25<br>Dormitory No. 1</span>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="col-lg-7">
-            <div class="form-wrapper">
-              <div class="form-header">
-                <h3>Send us a message</h3>
-              </div>
-
-              <form action="forms/contact.php" method="post" class="php-email-form">
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Full Name</label>
-                      <input type="text" name="name" required="">
+            <div class="col-lg-5">
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-chat-dots"></i>
                     </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Email Address</label>
-                      <input type="email" name="email" required="">
+                    <div class="info-content">
+                        <h3>Let's Connect</h3>
+                        <p>We're here to discuss your vision and explore how we can bring it to life together.</p>
                     </div>
-                  </div>
                 </div>
 
-                <div class="form-group">
-                  <label>Subject</label>
-                  <input type="text" name="subject" required="">
+                <div class="contact-details">
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <i class="bi bi-envelope-open"></i>
+                        </div>
+                        <div class="detail-content">
+                            <span class="detail-label">Email us</span>
+                            <span class="detail-value">aniketsehgal03@gmail.com</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <i class="bi bi-telephone-outbound"></i>
+                        </div>
+                        <div class="detail-content">
+                            <span class="detail-label">Call us</span>
+                            <span class="detail-value">+370 61714895</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </div>
+                        <div class="detail-content">
+                            <span class="detail-label">Visit us</span>
+                            <span class="detail-value">Sauletekio Aleja 25<br>Dormitory No. 1</span>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                  <label for="projectMessage">Message</label>
-                  <textarea name="message" id="projectMessage" rows="5" required=""></textarea>
-                </div>
-
-                <div class="my-3">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-                </div>
-
-                <button type="submit" class="submit-btn btn-gradient advanced-hover">
-                <span>Send Message</span>
-                <i class="bi bi-arrow-right"></i>
-                </button>
-
-                <button class="animated-btn">Hover Me</button>
-
-
-              </form>
-
             </div>
 
-          </div>
+            <div class="col-lg-7">
+                <div class="form-wrapper">
+                    <div class="form-header">
+                        <h3>Send us a message</h3>
+                    </div>
 
+                    <!-- UPDATED FORM FOR LAB 5 -->
+                    <form id="contact-form" class="php-email-form" novalidate>
+                        <!-- Name & Surname -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Name *</label>
+                                    <input type="text" id="name" name="name" class="form-control" 
+                                           placeholder="Your Name" required>
+                                    <div class="validation-error" id="name-error"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="surname">Surname *</label>
+                                    <input type="text" id="surname" name="surname" class="form-control" 
+                                           placeholder="Your Surname" required>
+                                    <div class="validation-error" id="surname-error"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email & Phone -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Email Address *</label>
+                                    <input type="email" id="email" name="email" class="form-control" 
+                                           placeholder="your.email@example.com" required>
+                                    <div class="validation-error" id="email-error"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number *</label>
+                                    <div class="phone-input-group">
+                                        <input type="tel" id="phone" name="phone" class="form-control" 
+                                               placeholder="+370 6xx xxxxx" required maxlength="15">
+                                        <div class="validation-error" id="phone-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="form-group">
+                            <label for="address">Address *</label>
+                            <input type="text" id="address" name="address" class="form-control" 
+                                   placeholder="Street, City, Country" required>
+                            <div class="validation-error" id="address-error"></div>
+                        </div>
+
+                        <!-- Subject (Optional) -->
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" class="form-control" 
+                                   placeholder="What is this regarding?">
+                        </div>
+
+                        <!-- Replace the rating section with this: -->
+<div class="rating-section">
+    <h5>Rating Questions (1-10 scale) *</h5>
+    
+    <div class="form-group">
+        <label for="rating1">1. How would you rate my portfolio design?</label>
+        <div class="rating-number">
+            <input type="number" id="rating1" name="rating1" min="1" max="10" 
+                   value="5" class="rating-input-number" step="1">
+            <div class="validation-error" id="rating1-error"></div>
         </div>
-      </div>
+    </div>
 
-    </section><!-- /Contact Section -->
+    <div class="form-group">
+        <label for="rating2">2. How likely would you recommend my services?</label>
+        <div class="rating-number">
+            <input type="number" id="rating2" name="rating2" min="1" max="10" 
+                   value="5" class="rating-input-number" step="1">
+            <div class="validation-error" id="rating2-error"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="rating3">3. How satisfied are you with the overall experience?</label>
+        <div class="rating-number">
+            <input type="number" id="rating3" name="rating3" min="1" max="10" 
+                   value="5" class="rating-input-number" step="1">
+            <div class="validation-error" id="rating3-error"></div>
+        </div>
+    </div>
+</div>
+
+                        <!-- Message -->
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" class="form-control" 
+                                      rows="5" placeholder="Your message here..." required></textarea>
+                            <div class="validation-error" id="message-error"></div>
+                        </div>
+
+                        <!-- Template Messages (Keep these) -->
+                        <div class="my-3">
+                            <div class="loading">Loading</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Your message has been sent. Thank you!</div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            <button type="submit" class="submit-btn btn-gradient advanced-hover btn-disabled" disabled>
+                                <span>Submit Form</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Results Display Area -->
+                    <div id="form-results" class="form-results mt-4"></div>
+
+                    <!-- Test Button (Optional, for demonstration) -->
+                    <div class="text-center mt-3">
+                        <button class="animated-btn">Test Hover Animation</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /Contact Section -->
 
     <section class="fade-in-section">
       <h2>Welcome to the site</h2>
@@ -1396,6 +1531,49 @@ Reach out through email or social channels, and I will get back to you quickly.<
         else document.documentElement.classList.remove('reduced-motion');
     });
 })();
+</script>
+
+<!-- Animated Gradient Background -->
+<div class="animated-gradient-bg"></div>
+
+<!-- Decorative Shapes for Lab Task -->
+<div class="shape circle"></div>
+<div class="shape circle small"></div>
+<div class="shape triangle"></div>
+<div class="shape triangle small"></div>
+
+<!-- CSS Loader (for Required #4) -->
+<div id="page-preloader" class="preloader">
+  <div class="spinner"></div>
+  <!-- Alternative: <div class="dots-loader"><span></span><span></span><span></span></div> -->
+</div>
+
+<!-- Add this AFTER your shapes but BEFORE closing body tag -->
+<script>
+  // Hide preloader when page is fully loaded
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      const preloader = document.getElementById('page-preloader');
+      if (preloader) {
+        preloader.style.opacity = '0';
+        preloader.style.visibility = 'hidden';
+        preloader.style.transition = 'opacity 0.5s ease, visibility 0.5s ease';
+        
+        // Remove from DOM after animation
+        setTimeout(function() {
+          preloader.style.display = 'none';
+        }, 500);
+      }
+    }, 1000); // 1 second delay to show the loader
+  });
+
+  // Fallback: hide preloader if page takes too long
+  setTimeout(function() {
+    const preloader = document.getElementById('page-preloader');
+    if (preloader && preloader.style.display !== 'none') {
+      preloader.style.display = 'none';
+    }
+  }, 5000); // 5 second timeout max
 </script>
 
 </body>
